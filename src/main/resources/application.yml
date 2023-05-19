@@ -1,0 +1,61 @@
+server :
+  port : 8100
+  shutdown : graceful
+spring :
+  application :
+    name : kafka-example
+  codec :
+    max-in-memory-size : 5MB
+  flyway :
+    url : jdbc:postgresql://localhost:5532/kafka-example
+    user : postgres
+    password : postgres
+  jackson :
+    default-property-inclusion : non_null
+    serialization :
+      indent_output : true
+      write-dates-as-timestamps : false
+      write-enums-using-to-string : true
+    deserialization :
+      fail-on-unknown-properties : false
+      adjust-dates-to-context-time-zone : false
+      use-big-decimal-for-floats : true
+    mapper :
+      accept-case-insensitive-enums : true
+    generator :
+      write-bigdecimal-as-plain : true
+  kafka :
+    bootstrap-servers :
+      - localhost:29092
+    bootstrap.server: localhost:29092
+    properties :
+      schema.registry.url : http://localhost:8081
+    consumer :
+      group-id : kafka-example-group
+      auto-offset-reset : latest
+      key-deserializer : org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer : org.apache.kafka.common.serialization.StringDeserializer
+      max-poll-records : 1
+      properties :
+        partition.assignment.strategy : org.apache.kafka.clients.consumer.RoundRobinAssignor
+        allow.auto.create.topics : false
+    producer :
+      acks : all
+      key-serializer : org.apache.kafka.common.serialization.StringSerializer
+      value-serializer : org.apache.kafka.common.serialization.StringSerializer
+    listener :
+      concurrency : 1
+      ack-mode : record
+  main :
+    banner-mode : off
+  r2dbc :
+    url : r2dbc:postgresql://localhost:5532/kafka-example
+    username : postgres
+    password : postgres
+    pool :
+      max-acquire-time : 10s
+
+schema:
+  registry:
+    url : http://localhost:8081
+
