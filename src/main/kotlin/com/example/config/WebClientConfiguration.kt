@@ -1,4 +1,4 @@
-package com.clearcover.signature.config
+package com.example.config
 
 import org.springframework.boot.web.reactive.function.client.WebClientCustomizer
 import org.springframework.context.annotation.Bean
